@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://tpgroup.atlassian.net/servicedesk">
-  <title>Redirecting...</title>
-</head>
-<body>
-  <p>Redirecting to <a href="https://tpgroup.atlassian.net/servicedesk">ServiceDesk</a>...</p>
-</body>
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8 () => {    <meta charset="utf-8" />
+        await microsoftTeams.app.initialize(); // Necessario in Teams (v2)
+        const url = "https://tpgroup.atlassian.net/servicedesk/";
+        // Apri nel browser esterno
+        document.getElementById('go').onclick = () => microsoftTeams.app.openLink(url);
+        // opzionale: auto-redirect immediato
+        microsoftTeams.app.openLink(url);
+      })();
+    </script>
+  </body>
 </html>
+    <title>Redirect a Jira Service Management</title>
+    https://res.cdn.office.net/teams-js/2.46.0/js/MicrosoftTeams.min.js</script>
+    <style>body{font-family:sans-serif} .btn{padding:10px 16px;border:0;border-radius:6px;background:#0078d4;color:#fff}</style>
+  </head>
+  <body>
+    <p>Apertura di Jira Service Management…</p>
+    <button class="btn" id="go">Apri Jira</button>
+    <script>
