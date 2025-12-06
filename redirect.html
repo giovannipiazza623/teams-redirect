@@ -5,46 +5,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apri Jira Service Management</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
-    h1 { font-size: 20px; margin-bottom: 10px; }
-    p { margin-bottom: 20px; color: #444; }
-    button {
-      background-color: #0078d4;
-      color: #fff;
-      border: none; padding: 12px 20px;
-      font-size: 16px; border-radius: 6px; cursor: pointer;
-    }
-    button:hover { background-color: #005a9e; }
-    a { color: #0078d4; text-decoration: underline; }
-  </style>
+
+  <!-- Teams SDK v2: usato per app.openLink (apertura fuori da Teams desktop) -->
   https://res.cdn.office.net/teams-js/2.47.0/js/MicrosoftTeams.min.js</script>
+
+  <style>
+    :root { --brand: #0078d4; --brand-hover: #005a9e; --fg:#1a1a1a; --muted:#555; }
+    html, body { height:100%; margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--fg); background:#fff; }
+    .wrap { min-height:100%; display:grid; place-items:center; padding:40px; text-align:center; box-sizing:border-box; }
+    h1 { font-size:22px; margin:0 0 10px; }
+    p.status { margin:0 0 20px; color:var(--muted); }
+    button {
+      background-color: var(--brand);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background-color: var(--brand-hover); }
+    button:focus { outline: 3px solid rgba(0,120,212,.35); outline-offset: 2px; }
+  </style>
 </head>
 <body>
-  <h1>Apri Jira Service Management</h1>
-  <p>Stiamo aprendo Jira nel browser… Se non parte, clicca il bottone.</p>
-  <button id="openJira">Apri Jira</button>
-  <p>Oppure usa questo link:
-    <a href/tpgroup.atlassian.net/servicedesk/
-      https://tpgroup.atlassian.net/servicedesk/
-    </a>
-  </p>
+  <main class="wrap" aria-labelledby="title">
+    <div>
+      <h1 id="title">Apri Jira Service Management</h1>
+      <p class="status">Stiamo aprendo Jira nel browser… Se non parte, clicca il bottone.</p>
+      <p><button id="openJira" type="button">Apri Jira</button></p>
+    </div>
+  </main>
 
   <script>
     const url = "https://tpgroup.atlassian.net/servicedesk/";
+
     function openExternally() {
+      // Su Teams desktop, openLink apre fuori dal client. Altrimenti fallback su nuova scheda del browser.
       if (window.microsoftTeams?.app?.openLink) {
-        microsoftTeams.app.openLink(url);   // Desktop: apre fuori da Teams
-      } else {
-        window.open(url, "_blank", "noopener,noreferrer"); // Web: nuova scheda
+        try { microsoftTeams.app.openLink(url); return; } catch(e) {}
       }
+      try { window.open(url, "_blank", "noopener,noreferrer"); } catch(e) {}
     }
+
     document.getElementById("openJira").addEventListener("click", openExternally);
+
     (async () => {
-      try { await microsoftTeams.app.initialize(); } catch(e) {}
-      openExternally();  // auto-apertura
+      try { if (window.microsoftTeams?.app?.initialize) await microsoftTeams.app.initialize(); } catch(e) {}
+      // Auto‑apertura
+      openExternally();
     })();
   </script>
 </body>
 </html>
+
 
