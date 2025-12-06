@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="it">
 <head>
@@ -5,23 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apri Jira Service Management</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: none;    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+    h1 { font-size: 20px; margin-bottom: 10px; }
+    p { margin-bottom: 20px; color: #444; }
+    button {
+      background-color: #0078d4;
+      color: #fff;
+      border: none; padding: 12px 20px;
+      font-size: 16px; border-radius: 6px; cursor: pointer;
     }
     button:hover { background-color: #005a9e; }
     a { color: #0078d4; text-decoration: underline; }
   </style>
-  <script src="https://res.cdn.office/2.47.0/js/MicrosoftTeams.min.js</script>
+  <script src="https://reset/teams-js/2.47.0/js/MicrosoftTeams.min.js</script>
 </head>
 <body>
   <h1>Apri Jira Service Management</h1>
   <p>Stiamo aprendo Jira nel browser… Se non parte, clicca il bottone.</p>
   <button id="openJira">Apri Jira</button>
   <p>Oppure usa questo link:
-    <a href="https://tpgroup.atlassian.net/servicedesk/" target="_up.atlassian.net/servicedesk/
+    https://tpgroup.atlassian.net/servicedesk/
+      https://tpgroup.atlassian.net/servicedesk/
     </a>
   </p>
 
@@ -29,21 +34,17 @@
     const url = "https://tpgroup.atlassian.net/servicedesk/";
     function openExternally() {
       if (window.microsoftTeams?.app?.openLink) {
-        microsoftTeams.app.openLink(url);
+        microsoftTeams.app.openLink(url);   // Desktop: apre fuori da Teams
       } else {
-        window.open(url, "_blank", "noopener,noreferrer");
+        window.open(url, "_blank", "noopener,noreferrer"); // Web: nuova scheda
       }
     }
     document.getElementById("openJira").addEventListener("click", openExternally);
     (async () => {
       try { await microsoftTeams.app.initialize(); } catch(e) {}
-      openExternally(); // auto-apertura
+      openExternally();  // auto-apertura
     })();
   </script>
 </body>
 </html>
-    h1 { font-size: 20px; margin-bottom: 10px; }
-    p { margin-bottom: 20px; color: #444; }
-    button {
-      background-color: #0078d4;
-      color: #fff;
+
