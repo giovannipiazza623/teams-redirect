@@ -1,130 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Redireziona ad Atlassian ServiceDesk</title>
-
-  <!-- Piccolo stile per messaggio utente -->
-  <style>
-    :root {
-      color-scheme: light dark;
-    }
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      padding: 2rem;
-      display: grid;
-      place-items: center;
-      min-height: 100vh;
-      background: #f6f7f9;
-    }
-    .card {
-      max-width: 720px;
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    }
-    h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
-    p  { margin: 0.25rem 0 1rem; color: #444; }
-    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-    button, a.btn {
-      appearance: none;
-      border: none;
-      border-radius: 8px;
-      padding: 0.65rem 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: #0067b8; /* Microsoft blue */
-      color: #fff;
-      text-decoration: none;
-    }
-    button.secondary, a.btn.secondary {
-      background: #e6f0fb;
-      color: #0a4fa6;
-    }
-    .status { font-size: 0.9rem; color: #666; margin-top: 0.5rem; }
-    .hide { display: none; }
-  </style>
-</head>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apertura Atlassian</title>
+<script src="https://res.cdn.office.net/teams-js/2osoftTeams.min.js</script>
 <body>
-  <div class="card" role="group" aria-label="Redirezione Atlassian">
-    <h1>Apertura del ServiceDesk Atlassian</h1>
-    <p>Stiamo aprendo Atlassian in una nuova finestra del browser. Se non parte, clicca “Apri ora”.</p>
-
-    <div class="row">
-      <button id="openNow">Apri ora</button>
-      <!-- Fallback assoluto: link target=_blank -->
-      <a class="btn secondary" id="openLink" href="https://owser</a>
-    </div>
-
-    <p id="status" class="status">Inizializzazione…</p>
-  </div>
-
-  <!-- TeamsJS v2 (caricato dalla CDN Microsoft) -->
-  <script src="https://res.cdn.office.net/teams-js/2.17.0/js/MicrosoftTeams.min  <script>
-    // ***** Configurazione *****
-    const TARGET_URL = "https://tpgroup.atlassian.net/servicedesk/";
-
-    const statusEl  = document.getElementById("status");
-    const openBtn   = document.getElementById("openNow");
-    const openLink  = document.getElementById("openLink");
-
-    openLink.href = TARGET_URL;
-
-    function setStatus(msg) { statusEl.textContent = msg; }
-
-    // Prova ad aprire in nuova scheda, con varianti utili per Teams
-    function openInBrowser() {
-      // Primo tentativo standard
-      const w = window.open(TARGET_URL, "_blank", "noopener,noreferrer");
-      if (w && !w.closed) {
-        setStatus("Finestra aperta. Se non la vedi, verifica che i pop‑up del browser siano consentiti per Teams.");
-        try { w.focus(); } catch (e) {}
-        return true;
-      }
-      // Se fallisce, aggiorna stato e lascia al fallback <a target=_blank>
-      setStatus("Il browser ha bloccato il pop‑up. Clicca “Apri ora”.");
-      return false;
-    }
-
-    // Avvio automatico (piccolo delay per rispettare alcune policy del client)
-    function autoOpenWithRetries() {
-      // 1) Tentativo immediato dopo init
-      const ok = openInBrowser();
-      if (ok) return;
-
-      // 2) Ritenta tra poco (alcuni client sbloccano dopo interazione)
-      setTimeout(() => { openInBrowser(); }, 600);
-    }
-
-    // Gestione click esplicito (sempre consentito dai browser)
-    openBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const ok = openInBrowser();
-      if (!ok) {
-        // come fallback, attiva il link <a> che certamente apre
-        openLink.click();
-      }
-    });
-
-    // Inizializza TeamsJS (se siamo dentro Teams)
-    (async () => {
-      try {
-        // In v2 è microsoftTeams.app.initialize()
-        await microsoftTeams.app.initialize();
-        setStatus("Teams inizializzato: apertura in corso…");
-      } catch (e) {
-        // Non siamo in Teams o SDK non disponibile: prosegui comunque
-        setStatus("Apertura in corso…");
-      } finally {
-        // Avvio automatico
-        // Nota: alcuni ambienti bloccheranno il popup senza gesto utente; per questo manteniamo il pulsante “Apri ora”.
-        setTimeout(autoOpenWithRetries, 250);
-      }
+  <p>Stiamo aprendo Atlassian in una nuova scheda. Se non parte, <a id="lnkgroup.atlassian.net/servicedesk/clicca qui</a>.</p>
+  <script>
+    const URL = "https://tpgroup.atlassian.net/servicedesk/";
+    (async () => { try { await microsoftTeams.app.initialize(); } catch(e){}; 
+      setTimeout(() => { const w = window.open(URL, "_blank", "noopener,noreferrer"); if(!w) document.getElementById("lnk").click(); }, 250);
     })();
   </script>
 </body>
 </html>
+
